@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
+<form class="search-form">
+    <input type="text" class="search" placeholder="诗句 诗名 诗人">
     <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
+        <li>输入词句，找一首诗</li>
+        <li></li>
     </ul>
-  </form>
+</form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    // const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    // 原文是城市，这里改为古诗词
+    const endpoint = 'https://gist.githubusercontent.com/soyaine/81399bb2b24ca1bb5313e1985533c640/raw/bdf7df2cbcf70706c4a5e51a7dfb8c933ed78878/TangPoetry.json';
+
+    const poetrys = [];
+    // 使用fetch()请求数据
+    fetch(endpoint).then(blob => blob.json()).then(data => poetrys.push(...data));
+    // console.log(poetrys)
+
+    // 找到匹配的诗句
+    function findMatches(wordToMatches, poetrys) {
+        // 使用正则表达式匹配诗句
+        return poetrys.filter(poetry => {
+            const regex = new RegExp(wordToMatches, 'gi');
+            const author = poetry.detail_author.join('');
+            return poetry.detail_text.match(regex) || author.match(regex) || poetry.title.match(regex);
+        })
+    }
+
+    // 展示匹配结果
+    function displayMatches() {
+        // console.log(this.value)
+        const matches = findMatches(this.value, poetrys);  // 返回匹配结果
+        // console.log(matches)
+        const html = matches.map(poetry => {
+            const regex = new RegExp(this.value, 'gi');
+            // 替换高亮标签, 即高亮搜索词
+            const text = poetry.detail_text.replace(regex, `<span class="hl">${this.value}</span>`);
+            const title = poetry.title.replace(regex, `<span class="hl">${this.value}</span>`);
+            // 构造HTML值
+            return `<li><span class="poetry">${text}</span><span class="title">${title}</span></li>`;
+        }).join('');
+
+        suggestions.innerHTML = html;
+    }
+
+    const poetrySearch = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    // 搜索匹配事件
+    poetrySearch.addEventListener('change', displayMatches);
+    poetrySearch.addEventListener('keyup', displayMatches);  // 使用keyup可以实时匹配每个字符
 
 </script>
 </body>

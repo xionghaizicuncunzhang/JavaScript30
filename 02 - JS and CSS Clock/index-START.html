@@ -56,18 +56,82 @@
       transform: translateY(-3px); /* account for the height of the clock hands */
     }
 
+    .clock-face:after {
+      width: 1em;
+      height: 1em;
+      left: 50%;
+      right: 50%;
+      top: 50%;
+      bottom: 50%;
+      position: absolute;
+      display: block;
+      content: '';
+      background-color: #a8c5d1;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.1),
+                  0 0 10px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%);
+    }
+
     .hand {
       width: 50%;
       height: 6px;
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100% 50%;
+      transform: rotate(90deg);
+    }
+
+    /*秒针*/
+    .second-hand {
+      height: 2px;
+    }
+    /*分针*/
+    .min-hand {
+      width: 40%;
+      height: 4px;
+      left: 10%;
+    }
+    /*时针*/
+    .hour-hand {
+      width: 30%;
+      left: 20%;
     }
 
   </style>
 
   <script>
+    // 获取指针
+    const secHand  = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    // 设置时间函数
+    function setDate() {
+      const dateNow = new Date();
+
+      const seconds = dateNow.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90  // 将时间换算为角度，之所以要加90是因为起始位置是0deg，加上90后才是12clock的位置
+      secHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+      const minutes = dateNow.getMinutes();
+      const minutesDegrees = (minutes / 60) * 360 + 90   // 将时间换算为角度，之所以要加90是因为起始位置是0deg，加上90后才是12clock的位置
+      minHand.style.transform = `rotate(${minutesDegrees}deg)`;
+
+
+      const hours = dateNow.getHours();
+      const hoursDegrees = ((hours / 12) * 360) + ((minutes / 60 / 12) * 360) + 90;  // 加入分钟所占的时间，使时针可以缓慢地移动
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+
+      console.log(seconds, minutes, hours)
+
+    }
+
+    // 使用定时调用函数调用设置时间函数, 每秒调动一次
+    setInterval(setDate, 1000)
+
+    setDate()
 
   </script>
 </body>

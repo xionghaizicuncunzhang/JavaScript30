@@ -26,6 +26,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -43,6 +44,10 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;  /*文字居中*/
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -56,6 +61,10 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      align-items: center;
+      display: flex;
+      flex: 1 0 auto;  /*三个值分别代表项目相对于其他项目的增长量、收缩量、项目长度*/
+      justify-content: center;
     }
 
     .panel p {
@@ -70,7 +79,22 @@
     }
 
     .panel.open {
-      font-size: 40px;
+      font-size: 40px;  /*点击后文字放大*/
+      flex: 5;  /*点击后弹性盒子放大，相当于放大图片*/
+    }
+
+    /*文字被隐藏的效果*/
+    .panel p:first-child {
+      transform: translateY(-100%);
+    }
+    .panel.open p:first-child {
+      transform: translateY(0);
+    }
+    .panel p:last-child {
+      transform: translateY(100%);
+    }
+    .panel.open p:last-child {
+      transform: translateY(0);
     }
 
   </style>
@@ -105,6 +129,14 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll(".panel");
+
+    // 点击后图片展开的事件，文字回缩
+    function clickOpen(event) {
+      this.classList.toggle('open')  // toggle(value)，如果类名列表中已经存在指定的 value，则删除；如果不存在，则添加。
+    }
+
+    panels.forEach((panel) => panel.addEventListener('click', clickOpen));
 
   </script>
 
