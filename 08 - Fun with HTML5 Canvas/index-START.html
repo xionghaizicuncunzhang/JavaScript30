@@ -1,18 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HTML5 Canvas</title>
+    <meta charset="UTF-8">
+    <title>HTML5 Canvas</title>
 </head>
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+    const draw = document.querySelector('#draw');
+    const context = draw.getContext("2d");
+    // 设置画布为页面
+    draw.width = window.innerWidth;
+    draw.height = window.innerHeight;
+    // 设置context基本属性
+    context.strokeStyle = "#f00";
+    context.lineWidth = 100;
+    context.lineCap = "round";
+    context.lineJoin = "round";
+
+    let isDrawing = false;  // 停止绘制
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let direction = true;
+
+    // 绘制函数
+    function drawing(event) {
+        if (!isDrawing) return;
+
+        // 笔触彩虹效果
+        context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        if (hue >= 360) hue = 0;
+        hue++;
+        // 绘制路径
+        context.beginPath();
+        // 路径终点
+        context.moveTo(lastX, lastY);
+        // 开始绘制
+        context.lineTo(event.offsetX, event.offsetY);
+        context.stroke();
+        [lastX, lastY] = [event.offsetX, event.offsetY];
+        // 控制线条大小
+        if (context.lineWidth > 100 || context.lineWidth < 20) {
+            direction = !direction;
+        }
+        // 方向改变线条大小
+        if (direction) {
+            context.lineWidth++;
+        } else {
+            context.lineWidth--;
+        }
+    }
+
+    // 鼠标事件
+    // 鼠标点击时代表开始绘制，isDrawing为true, 最后偏移量即最后落笔位置
+    draw.addEventListener("mousedown", (event) => {
+        isDrawing = true;
+        [lastX, lastY] = [event.offsetX, event.offsetY];
+    });
+    // 移动鼠标事件，开始绘制
+    draw.addEventListener("mousemove", drawing);
+    draw.addEventListener("mouseup", () => isDrawing = false);
+    draw.addEventListener("mouseout", () => isDrawing = false);
+
 </script>
 
 <style>
-  html, body {
-    margin: 0;
-  }
+    html, body {
+        margin: 0;
+    }
 </style>
 
 </body>
