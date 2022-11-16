@@ -1,46 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Console Tricks!</title>
+    <meta charset="UTF-8">
+    <title>Console Tricks!</title>
 </head>
 <body>
 
-  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+<p onClick="makeGreen()">×BREAK×DOWN×</p>
 
-  <script>
-    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+<script>
+    const dogs = [{name: 'Snickers', age: 2}, {name: 'hugo', age: 8}];
 
     function makeGreen() {
-      const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
+        const p = document.querySelector('p');
+        p.style.color = '#BADA55';
+        p.style.fontSize = '50px';
     }
 
     // Regular
+    // 常规输出
+    console.log("别看我只是一只羊~");
 
     // Interpolated
+    // 字符替换
+    console.log("羊儿的%s难以想象~", "被替换了");
+    console.log("懒羊羊今年%f岁了", 11);
 
     // Styled
+    // 设定输出的样式
+    console.log("沸羊羊变身！", "color: #ff0000; font-size: 60px");
 
     // warning!
+    console.warn("警告！灰太狼来了！");
 
     // Error :|
+    console.error("警报错误！来的是小灰灰。");
 
     // Info
+    console.info("羊村和狼堡就青青草原安全治理问题进行第一次洽谈。")
 
     // Testing
+    console.assert(1 === 1, "大大怪将军永远是对的！");
+    console.assert(1 === 0, "看看看，失策了吧");
+    const p = document.querySelector('p');
+    console.assert(p.innerHTML.match("她"), "我这儿才没有她这个人");
 
     // clearing
+    // 清空·控制台
+    // console.clear()
 
     // Viewing DOM Elements
+    // 打印输出 DOM 元素
+    // let p = document.querySelector("p");
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    // 分组
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd()
+    })
 
     // counting
+    // 计数
+    console.count("只因");
+    console.count("篮球");
+    console.count("篮球");
+    console.count("只因");
+    console.count("只因");
+    console.count("篮球");
+    console.count("鸡");
+    console.count("只因");
 
     // timing
+    // 耗时
+    console.time("fetch github my data");
+    fetch('https://api.github.com/users/xionghaizicuncunzhang').then(data => data.json()).then(data => {
+      console.timeEnd('fetch github my data');  // 传入console.time定义的定时器
+      console.log(data);
+    })
 
-  </script>
+</script>
 </body>
 </html>
