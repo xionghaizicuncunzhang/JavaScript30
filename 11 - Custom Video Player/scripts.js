@@ -6,6 +6,7 @@ const progressBar = document.querySelector(".progress__filled");  // 实时进�
 const toggle = document.querySelector(".toggle");  // 播放按钮
 const ranges = document.querySelectorAll('.player__slider');  // 声音条和播放速度条
 const skipButtons =  document.querySelectorAll("[data-skip]");  // 快进和后退按钮
+const playImg = document.querySelector(".video_play")  // 播放图标
 
 // 播放功能
 function togglePlay() {
@@ -14,8 +15,8 @@ function togglePlay() {
 
 // 播放图标变换
 function changeButton() {
-    // toggle.textContent = this.paused ? "image/play.png" : "image/pause.png"
-    toggle.textContent = this.paused ? '►' : '❚ ❚';
+    // toggle.textContent = this.paused ? '►' : '❚ ❚';
+    playImg.src = this.paused ? './play.png' : './pause.png';  // 替换播放按键的图片链接
 }
 
 // 快进后退
