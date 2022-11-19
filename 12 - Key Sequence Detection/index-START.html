@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Key Detection</title>
-  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+    <meta charset="UTF-8">
+    <title>Key Detection</title>
+    <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
 </head>
 <body>
 <script>
+    const pressed = new Array();
+    const secretCode = "xionghaizi";  // 验证序列
+
+    // 键盘监听事件
+    window.addEventListener("keyup", (event) => {
+        console.log(event.key);
+        pressed.push(event.key);  // 添加到数组中
+        // 保证最大长度始终为 secretCode 的长度, 这样才能保证只有一次输入正确时才触发相应条件
+        pressed.splice(-secretCode.length-1, pressed.length - secretCode.length);
+        if (pressed.join('').includes(secretCode)) {
+            console.log("输入正确！")
+            cornify_add();
+        }
+    })
+
 </script>
 </body>
 </html>
