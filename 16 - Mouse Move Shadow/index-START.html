@@ -1,40 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mouse Shadow</title>
+    <meta charset="UTF-8">
+    <title>Mouse Shadow</title>
 </head>
 <body>
 
-  <div class="hero">
+<div class="hero">
     <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+</div>
 
-  <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+<style>
+    html {
+        color: black;
+        font-family: sans-serif;
+    }
 
-  body {
-    margin: 0;
-  }
+    body {
+        margin: 0;
+    }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+    }
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
-  </style>
+    h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+    }
+</style>
 
 <script>
+    const hero = document.querySelector(".hero");
+    const text = document.querySelector(".hero h1");
+
+    function shadowMove(event) {
+        const {offsetWidth: width, offsetHeight: height} = hero;  // 文字当前位置
+        let {offsetX: x, offsetY: y} = event;  // 鼠标当前位置
+        let proportion = 0.5; // 阴影距离h1中心的距离和鼠标距离h1中心距离的比例，用于计算阴影的具体位置。
+
+        //将鼠标位置转换为相对视口左上角的坐标
+        if (this !== event.target) {
+            x = x + event.target.offsetLeft;
+            y = y + event.target.offsetTop;
+        }
+
+        // 阴影移动坐标
+        const xWalk = parseInt((x - width / 2) * proportion);  //(鼠标当前位置的x坐标 - h1中心坐标) * 比例
+        const yWalk = parseInt((y - height / 2) * proportion);
+
+        // text-shadow: h-shadow v-shadow blur color
+        text.style.textShadow = `
+        ${xWalk}px ${yWalk}px 0 rgba(225, 0, 225, 0.7),
+        ${xWalk * -1}px ${yWalk}px 0 rgba(0, 255, 225, 0.7),
+        ${yWalk}px ${xWalk * -1}px 0 rgba(0, 225, 0, 0.7),
+        ${yWalk * -1}px ${xWalk}px 0 rgba(0, 0, 225, 0.7)
+        `
+
+    }
+
+    // 监听鼠标移动事件
+    hero.addEventListener("mousemove", shadowMove)
+
 </script>
 </body>
 </html>
