@@ -1,52 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sort Without Articles</title>
+    <meta charset="UTF-8">
+    <title>Sort Without Articles</title>
 </head>
 <body>
 
-  <style>
+<style>
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      min-height: 100vh;
+        margin: 0;
+        font-family: sans-serif;
+        background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
     }
 
     #bands {
-      list-style: inside square;
-      font-size: 20px;
-      background: white;
-      width: 500px;
-      margin: auto;
-      padding: 0;
-      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+        list-style: inside square;
+        font-size: 20px;
+        background: white;
+        width: 500px;
+        margin: auto;
+        padding: 0;
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
-    
+
     #bands li {
-      border-bottom: 1px solid #efefef;
-      padding: 20px;
+        border-bottom: 1px solid #efefef;
+        padding: 20px;
     }
-    
+
     #bands li:last-child {
-      border-bottom: 0;
+        border-bottom: 0;
     }
 
     a {
-      color: #ffc600;
-      text-decoration: none;
+        color: #ffc600;
+        text-decoration: none;
     }
 
-  </style>
+</style>
 
-  <ul id="bands"></ul>
+<ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+    //请为这些字符串排序，要求去除字符串中的The，A以及An的前缀后再进行排序，并把排序后的结果作为列表项展示在无序列表中。
+    const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+    // 去除前缀函数
+    const deletePrefix = function (band) {
+        return band.replace(/^(The|A|An)\s{1}/i, "")
+    }
+    // 排序
+    const sortDeletePrefix = bands.sort((a, b) => deletePrefix(a) > deletePrefix(b) ? 1 : deletePrefix(a) < deletePrefix(b) ? -1 : 0);
+    // 展示到 html 页面
+    document.querySelector("#bands").innerHTML = `<li>${sortDeletePrefix.join('</li><li>')}</li>`;
 
 
 </script>
