@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>👀👀👀Follow Along Nav</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>👀👀👀Follow Along Nav</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav>
-      <ul class="menu">
+<nav>
+    <ul class="menu">
         <li><a href="">Home</a></li>
         <li><a href="">Order Status</a></li>
         <li><a href="">Tweets</a></li>
         <li><a href="">Read Our History</a></li>
         <li><a href="">Contact Us</a></li>
-      </ul>
-    </nav>
+    </ul>
+</nav>
 
-    <div class="wrapper">
-      <p>Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit. Est <a href="">explicabo</a> unde natus necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
-      <p>Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque praesentium laborum pariatur earum <a href="">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
-      <p>Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime <a href="">corrupti</a> possimus <a href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.</p>
-      <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
-      <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
-    </div>
+<div class="wrapper">
+    <p>Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit. Est <a href="">explicabo</a> unde natus
+        necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
+    <p>Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque praesentium laborum pariatur earum <a href="">quaerat</a>
+        cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
+    <p>Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime <a href="">corrupti</a> possimus <a
+            href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.</p>
+    <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur
+        eveniet sunt quam provident sapiente dicta neque quod.</p>
+    <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a
+            href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
+</div>
 
-  <script>
+<script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
-  </script>
+    // 完成如下动画效果：当鼠标移动至某个对应标签上时，为标签添加一个白色的背景框，高亮表示该标签被选中，
+    // 当鼠标移动至其他标签后，白色背景框不消失，而是直接跟随鼠标平移至新的标签
+    const navs = document.querySelectorAll("a");
+    const highlight = document.createElement("span");  // 创建span元素，用来高亮
+    highlight.setAttribute("class", "highlight");  // 添加class，设置css样式
+    document.body.appendChild(highlight);  // 把高亮节点添加入html
+
+    // 避免在第一次选中节点时，白色高亮平移出现
+    highlight.style.display = "none";
+
+    // 处理高亮
+    function handleHighlight(event) {
+        const linkCoords = event.target.getBoundingClientRect();  // 获取目标元素的视窗大小
+        const coords = {
+            height: linkCoords.height,
+            width: linkCoords.width,
+            top: linkCoords.top + window.scrollY,
+            left: linkCoords.left + window.scrollX
+        }
+
+        // 高亮框的大小
+        highlight.style.height = `${coords.height}px`;
+        highlight.style.width = `${coords.width}px`;
+        highlight.style.top = `${coords.top}px`;
+        highlight.style.left = `${coords.left}px`;
+
+        highlight.style.display = "inline";
+    }
+
+    // 监听鼠标移入移出事件
+    navs.forEach(nav => nav.addEventListener("mouseenter", handleHighlight))
+
+</script>
 </body>
 </html>
 
